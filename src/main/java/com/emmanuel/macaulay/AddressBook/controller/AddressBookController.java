@@ -37,7 +37,7 @@ public class AddressBookController {
 
     @PutMapping("/update")
     public ResponseEntity<AddressBook> updateAddressBook(@RequestBody AddressBookDTO request) {
-        return ResponseEntity.ok().body(addressBookService.createAddressBook(request));
+        return ResponseEntity.ok().body(addressBookService.updateAddressBook(request));
     }
 
     @DeleteMapping("/{id}")

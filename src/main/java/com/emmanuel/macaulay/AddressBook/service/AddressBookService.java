@@ -1,6 +1,7 @@
 package com.emmanuel.macaulay.AddressBook.service;
 
 
+import com.emmanuel.macaulay.AddressBook.exception.BadRequestException;
 import com.emmanuel.macaulay.AddressBook.exception.ResourceNotFoundException;
 import com.emmanuel.macaulay.AddressBook.model.AddressBook;
 import com.emmanuel.macaulay.AddressBook.model.dto.AddressBookDTO;
@@ -32,6 +33,18 @@ public class AddressBookService {
 
     public List<AddressBook> getAllAddressBooks() {
         return addressBookRepository.findAll();
+    }
+
+    public AddressBook updateAddressBook(AddressBookDTO request) {
+        if (request.getId() == null) {
+            throw new BadRequestException("Invalid request, missing id attribute!");
+        }
+
+        AddressBook addressBook = this.getAddressBookById(request.getId());
+
+        BeanUtils.copyProperties(request, addressBook);
+
+        return addressBookRepository.save(addressBook);
     }
 
     public String deleteAddressBook(Long id) {
